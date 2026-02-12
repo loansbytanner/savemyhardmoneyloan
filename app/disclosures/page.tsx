@@ -1,68 +1,55 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Disclosures',
-  description: 'Licensing and disclosures for Save My Hard Money Loan',
+  description: 'Disclosures for Save My Hard Money Loan',
 };
 
 export default function DisclosuresPage() {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-4xl font-bold text-slate-deep">Disclosures</h1>
+    <main className="min-h-screen bg-white">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="mb-8 inline-flex items-center text-sm font-medium text-primary hover:text-primary-dark"
+        >
+          &larr; Back to Home
+        </Link>
 
-      <div className="prose prose-slate max-w-none">
-        <h2 className="mt-8 text-2xl font-semibold text-slate-deep">Company Information</h2>
-        <p className="text-slate-medium">
-          Save My Hard Money Loan is operated by the Cook Brothers Mortgage Team, powered by Cornerstone First Mortgage, LLC.
-        </p>
+        <h1 className="mb-8 text-4xl font-bold text-text-primary">Disclosures</h1>
 
-        <h2 className="mt-8 text-2xl font-semibold text-slate-deep">NMLS Information</h2>
-        <ul className="list-disc pl-6 text-slate-medium">
-          <li><strong>Cornerstone First Mortgage, LLC:</strong> NMLS #173855</li>
-          <li><strong>Tanner Cook:</strong> NMLS #2090424</li>
-          <li><strong>Zac Cook:</strong> NMLS #2111496</li>
-        </ul>
-        <p className="text-slate-medium">
-          You can verify our licenses at{' '}
-          <a
-            href="https://www.nmlsconsumeraccess.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-amber-primary hover:underline"
-          >
-            NMLS Consumer Access
-          </a>.
-        </p>
+        <div className="prose max-w-none">
+          <h2 className="mt-8 text-2xl font-semibold text-text-primary">About Us</h2>
+          <p className="text-text-secondary">
+            Save My Hard Money Loan connects real estate investors with private lenders who specialize in hard money rescue and bridge financing. We work with a network of 20+ lenders to find solutions for investors facing balloon payments, extension needs, or foreclosure situations.
+          </p>
 
-        <h2 className="mt-8 text-2xl font-semibold text-slate-deep">Equal Housing Opportunity</h2>
-        <p className="text-slate-medium">
-          Cornerstone First Mortgage, LLC supports Equal Housing Opportunity. We are committed to ensuring that all individuals have equal access to housing and mortgage services, regardless of race, color, religion, sex, national origin, familial status, or disability.
-        </p>
+          <h2 className="mt-8 text-2xl font-semibold text-text-primary">Loan Information</h2>
+          <p className="text-text-secondary">
+            This website is for informational purposes only and is not an offer of credit or a commitment to lend. Interest rates, products, and loan terms are subject to change without notice and may not be available at the time of loan application or loan lock-in.
+          </p>
+          <p className="text-text-secondary">
+            Loans are subject to borrower, property, and deal qualification. Cash reserves may be required.
+          </p>
+          <p className="font-medium text-text-primary">
+            Hard money and bridge loans are for investment properties only, not primary residences.
+          </p>
 
-        <h2 className="mt-8 text-2xl font-semibold text-slate-deep">Loan Disclosures</h2>
-        <p className="text-slate-medium">
-          This website is for informational purposes only and is not an offer of credit or a commitment to lend. Interest rates, products, and loan terms are subject to change without notice and may not be available at the time of loan application or loan lock-in.
-        </p>
-        <p className="text-slate-medium">
-          Contact Cornerstone First Mortgage, LLC to learn more about your eligibility for its mortgage products. Loans are subject to borrower, property, and deal qualification. Cash reserves may be required.
-        </p>
-        <p className="text-slate-medium">
-          <strong>Hard money and bridge loans are for investment properties only, not primary residences.</strong>
-        </p>
+          <h2 className="mt-8 text-2xl font-semibold text-text-primary">No Upfront Fees</h2>
+          <p className="text-text-secondary">
+            We do not charge application fees, upfront costs, or junk fees. You only pay when we successfully close your loan.
+          </p>
 
-        <h2 className="mt-8 text-2xl font-semibold text-slate-deep">Contact Information</h2>
-        <p className="text-slate-medium">
-          <strong>Tanner Cook</strong><br />
-          Phone: 480-420-4918<br />
-          Email: Tanner@cfmtg.com<br />
-          NMLS #2090424
-        </p>
-        <p className="text-slate-medium">
-          <strong>Zac Cook</strong><br />
-          Phone: 480-406-2016<br />
-          Email: Zac@cfmtg.com<br />
-          NMLS #2111496
-        </p>
+          <h2 className="mt-8 text-2xl font-semibold text-text-primary">Contact</h2>
+          <p className="text-text-secondary">
+            For questions about our services, please use our{' '}
+            <Link href="/" className="text-primary hover:text-primary-dark">
+              contact form
+            </Link>{' '}
+            on the main page.
+          </p>
+        </div>
       </div>
     </main>
   );

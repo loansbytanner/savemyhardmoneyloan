@@ -1,0 +1,314 @@
+{
+  "project": "Hard Money Rescue Site Redesign",
+  "version": "1.0.0",
+  "created": "2026-02-11T12:00:00Z",
+  "description": "Simplify savemyhardmoneyloan.com to a minimal single-page lead funnel with light blue theme, distinct from DSCR flagship site.",
+  "tech_stack": {
+    "language": "TypeScript",
+    "framework": "Next.js",
+    "key_dependencies": ["tailwindcss", "react-hook-form", "zod", "lucide-react"]
+  },
+  "tech_context": {
+    "runtime": "Node.js",
+    "framework": "Next.js",
+    "detected_patterns": ["ssr_client_state", "api_endpoints"],
+    "platforms": ["windows"]
+  },
+  "interview_summary": {
+    "technical_decisions": [
+      "Light blue color palette: #2563eb primary, #ffffff background",
+      "Static gradient hero - no animations",
+      "Single CTA button - no phone numbers anywhere",
+      "Pure lead funnel - no direct contact options",
+      "Remove NMLS/Cornerstone branding - hard money doesn't require licensure"
+    ],
+    "tradeoffs": [
+      "Chose minimal design over feature-rich - faster load, clearer conversion path",
+      "Removed phone CTAs - forces all leads through quiz for better tracking"
+    ],
+    "edge_cases": [
+      "Quiz success page simplified - just confirmation message",
+      "Footer cross-sell links to DSCR only, not DPA"
+    ],
+    "constraints": [
+      "Must deploy to Vercel",
+      "DNS managed via Bluehost for savemyhardmoneyloan.com",
+      "Keep existing API route for CRM integration"
+    ]
+  },
+  "verification_strategy": {
+    "smoke_test": "Load homepage, complete quiz flow, verify form submits successfully and shows 'We'll be in touch soon' message",
+    "checkpoints": {
+      "server": "POST /api/submit-lead returns 200",
+      "client": "No console errors, quiz progresses through all steps",
+      "visual": "Light blue theme visible, Hero shows new headline, Footer shows DSCR link",
+      "integration": "Lead data reaches CRM (Big Purple Dot)"
+    }
+  },
+  "stories": [
+    {
+      "id": 1,
+      "title": "Update color palette to light blue theme",
+      "description": "As a developer, I want to update globals.css with the new light blue color palette so that the site has a clean, professional look distinct from the DSCR site.",
+      "acceptance_criteria": [
+        "Given globals.css, when colors are updated, then --background is #ffffff, --primary is #2563eb, --primary-dark is #1d4ed8",
+        "Given the new palette, when applied, then --surface is #f8fafc, --text-primary is #1e293b, --text-secondary is #64748b",
+        "Given the @theme inline block, when updated, then all Tailwind color references use new blue palette",
+        "Given amber-specific animations, when reviewed, then convert to blue or remove if not needed"
+      ],
+      "verification_steps": [
+        "Run npm run dev and inspect CSS variables in browser DevTools",
+        "Verify no amber/slate-deep colors remain in :root"
+      ],
+      "files_likely_affected": ["app/globals.css"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:15:00Z",
+      "notes": "Foundation story - must complete before other visual changes. Keep animations like fadeInUp but remove amber-specific ones like pulse-glow."
+    },
+    {
+      "id": 2,
+      "title": "Simplify page.tsx to Hero, Quiz, Footer only",
+      "description": "As a developer, I want to remove all excess sections from page.tsx so that the site is a minimal single-page lead funnel.",
+      "acceptance_criteria": [
+        "Given page.tsx, when simplified, then only Hero, QualifierQuiz, and Footer components are imported and rendered",
+        "Given removed components, when page loads, then TrustBar, HardMoneyRescue, WhatIsHardMoney, RescueOptions, WhyChooseUs, MeetTheTeam, FAQ are not rendered",
+        "Given the FAQ schema, when reviewed, then remove the JSON-LD script since FAQ section is removed"
+      ],
+      "verification_steps": [
+        "Run npm run dev and verify only 3 sections appear",
+        "Check page source - no FAQ schema in JSON-LD"
+      ],
+      "files_likely_affected": ["app/page.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:18:00Z",
+      "notes": "Depends on Story 1 for colors. Keep component files for now - will archive in Story 9."
+    },
+    {
+      "id": 3,
+      "title": "Redesign Hero with light theme and new content",
+      "description": "As a user, I want to see a clean, light-themed hero section so that I understand the service and can easily start the quiz.",
+      "acceptance_criteria": [
+        "Given the Hero, when loaded, then background is clean static light blue gradient (no animated orbs)",
+        "Given the headline, when displayed, then it reads 'Need to Exit Your Hard Money Loan?'",
+        "Given the subheadline, when displayed, then it reads 'Our dedicated team is here to help you find a solution'",
+        "Given the CTA, when displayed, then there is a single 'Get Started' button with blue styling",
+        "Given the CTA button, when clicked, then it smooth-scrolls to the quiz section",
+        "Given the Hero, when loaded, then urgency badges, value props, phone buttons, and trust indicators are removed"
+      ],
+      "verification_steps": [
+        "Load page and verify headline text matches spec",
+        "Click 'Get Started' and confirm smooth scroll to quiz",
+        "Verify no phone numbers or urgency badges appear"
+      ],
+      "files_likely_affected": ["components/Hero.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:22:00Z",
+      "notes": "Depends on Story 1. Remove lucide-react icons that are no longer used (Phone, AlertTriangle, Clock, Shield). Keep ArrowRight for button."
+    },
+    {
+      "id": 4,
+      "title": "Update Quiz to light blue theme",
+      "description": "As a user, I want the quiz to have a light blue theme so that it matches the rest of the redesigned site.",
+      "acceptance_criteria": [
+        "Given the Quiz section, when loaded, then background uses light blue gradient instead of dark slate",
+        "Given quiz option cards, when displayed, then they use blue accent colors instead of amber",
+        "Given the progress bar, when displayed, then it uses blue gradient instead of amber",
+        "Given selected options, when clicked, then highlight uses blue instead of amber",
+        "Given the submit button, when displayed, then it uses blue styling",
+        "Given focus states, when inputs focused, then outline is blue (#2563eb)"
+      ],
+      "verification_steps": [
+        "Complete full quiz flow and verify all elements use blue theme",
+        "Check that no amber/gold colors appear in quiz"
+      ],
+      "files_likely_affected": ["components/QualifierQuiz.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:28:00Z",
+      "notes": "Depends on Story 1. Keep all quiz logic and validation intact - only change colors."
+    },
+    {
+      "id": 5,
+      "title": "Simplify Quiz success page",
+      "description": "As a user, I want to see a simple confirmation after submitting the quiz so that I know my request was received.",
+      "acceptance_criteria": [
+        "Given quiz submission success, when displayed, then show 'Thank You, {name}!' heading",
+        "Given the success message, when displayed, then show 'We'll be in touch soon.' as the only message",
+        "Given the success page, when displayed, then remove 'What happens next' steps section",
+        "Given the success page, when displayed, then remove 'Schedule a Call Now' calendar link",
+        "Given the success page, when displayed, then remove Call Tanner/Call Zac phone buttons",
+        "Given the success page, when displayed, then remove 'Urgent Deal Priority' banner"
+      ],
+      "verification_steps": [
+        "Complete quiz with test data and verify simple success message",
+        "Confirm no phone numbers, calendar links, or action buttons appear"
+      ],
+      "files_likely_affected": ["components/QualifierQuiz.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:28:00Z",
+      "notes": "Depends on Story 4. Remove calendars array and getNextCalendar function. Remove Calendar, Clock icons if unused."
+    },
+    {
+      "id": 6,
+      "title": "Simplify Footer",
+      "description": "As a user, I want a minimal footer so that I can access legal pages and learn about DSCR loans.",
+      "acceptance_criteria": [
+        "Given the Footer, when loaded, then show DSCR cross-sell link to savemydscrloan.com",
+        "Given the Footer, when loaded, then remove DPA (arizonadpa.com) cross-sell link",
+        "Given the Footer, when loaded, then show Privacy Policy and Disclosures links",
+        "Given the Footer, when loaded, then remove all Cornerstone branding and NMLS numbers",
+        "Given the Footer, when loaded, then remove Tanner and Zac contact sections",
+        "Given the Footer, when loaded, then remove Equal Housing Opportunity badge",
+        "Given the Footer, when loaded, then remove legal disclaimer paragraph",
+        "Given the Footer, when loaded, then use light blue theme styling"
+      ],
+      "verification_steps": [
+        "Scroll to footer and verify only DSCR link + legal links appear",
+        "Confirm no phone numbers, emails, or NMLS info present"
+      ],
+      "files_likely_affected": ["components/Footer.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:32:00Z",
+      "notes": "Depends on Story 1. Remove Phone, Mail icons. Significantly reduces footer size."
+    },
+    {
+      "id": 7,
+      "title": "Update Privacy page to light blue theme",
+      "description": "As a user, I want the Privacy Policy page to match the main site theme so that the experience is consistent.",
+      "acceptance_criteria": [
+        "Given the Privacy page, when loaded, then background and text colors use light blue palette",
+        "Given any links on the page, when displayed, then they use blue (#2563eb) color"
+      ],
+      "verification_steps": [
+        "Navigate to /privacy and verify light theme is applied",
+        "Check that text is readable on light background"
+      ],
+      "files_likely_affected": ["app/privacy/page.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:35:00Z",
+      "notes": "Depends on Story 1. May need to update layout.tsx if theme is set there."
+    },
+    {
+      "id": 8,
+      "title": "Update Disclosures page to light blue theme",
+      "description": "As a user, I want the Disclosures page to match the main site theme so that the experience is consistent.",
+      "acceptance_criteria": [
+        "Given the Disclosures page, when loaded, then background and text colors use light blue palette",
+        "Given any links on the page, when displayed, then they use blue (#2563eb) color"
+      ],
+      "verification_steps": [
+        "Navigate to /disclosures and verify light theme is applied",
+        "Check that text is readable on light background"
+      ],
+      "files_likely_affected": ["app/disclosures/page.tsx"],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:35:00Z",
+      "notes": "Depends on Story 1. Similar changes to Story 7."
+    },
+    {
+      "id": 9,
+      "title": "Remove unused component files",
+      "description": "As a developer, I want to delete unused component files so that the codebase is clean and maintainable.",
+      "acceptance_criteria": [
+        "Given unused components, when deleted, then HardMoneyRescue.tsx is removed",
+        "Given unused components, when deleted, then WhatIsHardMoney.tsx is removed",
+        "Given unused components, when deleted, then RescueOptions.tsx is removed",
+        "Given unused components, when deleted, then WhyChooseUs.tsx is removed",
+        "Given unused components, when deleted, then MeetTheTeam.tsx is removed",
+        "Given unused components, when deleted, then FAQ.tsx is removed",
+        "Given unused components, when deleted, then TrustBar.tsx is removed",
+        "Given the build, when run, then npm run build succeeds with no import errors"
+      ],
+      "verification_steps": [
+        "Run npm run build and verify no errors",
+        "Check components folder only has Hero, QualifierQuiz, Footer, Analytics, ui/"
+      ],
+      "files_likely_affected": [
+        "components/HardMoneyRescue.tsx",
+        "components/WhatIsHardMoney.tsx",
+        "components/RescueOptions.tsx",
+        "components/WhyChooseUs.tsx",
+        "components/MeetTheTeam.tsx",
+        "components/FAQ.tsx",
+        "components/TrustBar.tsx"
+      ],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:38:00Z",
+      "notes": "Depends on Story 2. Must ensure page.tsx no longer imports these before deleting."
+    },
+    {
+      "id": 10,
+      "title": "Test locally and verify build",
+      "description": "As a developer, I want to test the complete site locally so that I can confirm everything works before deployment.",
+      "acceptance_criteria": [
+        "Given npm run dev, when started, then site loads at http://localhost:3000 without errors",
+        "Given the quiz flow, when completed, then form submits successfully to /api/submit-lead",
+        "Given npm run build, when run, then build completes with no errors",
+        "Given all pages, when visited, then /privacy and /disclosures load correctly",
+        "Given browser console, when checked, then no JavaScript errors appear"
+      ],
+      "verification_steps": [
+        "Run npm run dev and complete full quiz flow",
+        "Run npm run build and verify success",
+        "Check browser console for errors"
+      ],
+      "files_likely_affected": [],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:42:00Z",
+      "notes": "Depends on Stories 1-9. This is the verification gate before deployment."
+    },
+    {
+      "id": 11,
+      "title": "Deploy to Vercel",
+      "description": "As a developer, I want to deploy the site to Vercel so that it's accessible on the internet.",
+      "acceptance_criteria": [
+        "Given the codebase, when deployed, then Vercel deployment succeeds",
+        "Given the deployment, when complete, then a preview URL is provided",
+        "Given the preview URL, when visited, then site loads correctly with all changes"
+      ],
+      "verification_steps": [
+        "Use /vercel-deploy skill to deploy",
+        "Visit preview URL and verify site works",
+        "Complete quiz flow on preview URL"
+      ],
+      "files_likely_affected": [],
+      "status": "completed",
+      "completed_at": "2026-02-11T12:45:00Z",
+      "notes": "Depends on Story 10. Will return preview URL and deployment claim link."
+    },
+    {
+      "id": 12,
+      "title": "Configure Bluehost DNS for domain",
+      "description": "As a site owner, I want savemyhardmoneyloan.com to point to the Vercel deployment so that users can access the site via the custom domain.",
+      "acceptance_criteria": [
+        "Given Bluehost DNS, when configured, then A record or CNAME points to Vercel",
+        "Given Vercel, when domain added, then savemyhardmoneyloan.com is verified",
+        "Given the domain, when visited, then site loads with SSL certificate"
+      ],
+      "verification_steps": [
+        "Add domain in Vercel dashboard",
+        "Configure DNS records in Bluehost",
+        "Visit https://savemyhardmoneyloan.com and verify site loads"
+      ],
+      "files_likely_affected": [],
+      "status": "completed",
+      "completed_at": "2026-02-12T07:05:00Z",
+      "notes": "A records updated in Bluehost (@ and www → 76.76.21.21). Vercel alias configured. Site live with SSL at https://savemyhardmoneyloan.com"
+    }
+  ],
+  "completion_criteria": {
+    "all_tests_pass": true,
+    "build_succeeds": true,
+    "smoke_test_passes": true,
+    "custom_checks": [
+      "Site loads at savemyhardmoneyloan.com with SSL",
+      "Quiz submits to CRM successfully",
+      "No amber/dark theme colors remain"
+    ]
+  },
+  "preflight_completed": true,
+  "preflight_timestamp": "2026-02-11T12:05:00Z",
+  "active_gotchas": ["ssr_client_state", "api_endpoints"],
+  "context_notes": "This is a hard money rescue lead funnel site. Hard money lending does not require NMLS licensure, so all Cornerstone branding and compliance info is removed. Site acts as a feeder to the DSCR flagship site (savemydscrloan.com). Design should be clean, professional, and fast-loading - utility-focused rather than premium. All leads go through quiz only - no direct phone contact options.",
+  "completed_at": "2026-02-12T07:08:00Z",
+  "smoke_test_passed": true
+}
